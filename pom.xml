@@ -12,11 +12,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>authservice-java</groupId>
+	<groupId>acmeair-authservice-java</groupId>
 	<version>2.0.0-SNAPSHOT</version>
-	<artifactId>authservice-java</artifactId>
+	<artifactId>acmeair-authservice-java</artifactId>
 	<packaging>war</packaging>
-	<name>Auth Service :: Java</name>
+	<name>AcmeAir :: Auth Service :: Java</name>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>

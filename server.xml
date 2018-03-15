@@ -20,8 +20,8 @@
   
   <opentracingZipkin/>
   
-  <webApplication name="authservice"
-        location="authservice-java-2.0.0-SNAPSHOT.war"
+  <webApplication name="acmeair-authservice"
+        location="acmeair-authservice-java-2.0.0-SNAPSHOT.war"
         contextRoot="/" />
         
   <cdi12 enableImplicitBeanArchives="false"/>

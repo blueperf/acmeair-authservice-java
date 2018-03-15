@@ -2,5 +2,5 @@
 
 @Library('MicroserviceBuilder') _
 microserviceBuilderPipeline {
-  image = 'authservice-java'
+  image = 'acmeair-authservice-java'
 }

@@ -2,20 +2,20 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: authservice
+  name: acmeair-authservice
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: auth-deployment
+        name: acmeair-auth-deployment
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9080"
     spec:
       containers:
-      - name: authservice-java
-        image: authservice-java:latest
+      - name: acmeair-authservice-java
+        image: acmeair-authservice-java:latest
         ports:
           - containerPort: 9080
           - containerPort: 9443
@@ -26,7 +26,7 @@ spec:
         - name: PASSWORD
           value: password
         - name: JVM_ARGS
-          value: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://customer-service:9080"
+          value: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
         - name: SECURE_SERVICE_CALLS
           value: 'true'
         readinessProbe:
@@ -45,10 +45,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: acmeair-auth-service
   namespace: default
 spec:
   ports:
     - port: 9080
   selector:
-    name: auth-deployment
+    name: acmeair-auth-deployment
