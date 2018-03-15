@@ -16,7 +16,9 @@
 
 package com.acmeair.web;
 
-import java.util.concurrent.ExecutionException;
+import com.acmeair.client.CustomerClient;
+import com.acmeair.securityutils.SecurityUtils;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,15 +28,9 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-
-import org.eclipse.microprofile.faulttolerance.exceptions.CircuitBreakerOpenException;
-import org.eclipse.microprofile.faulttolerance.exceptions.TimeoutException;
-import org.eclipse.microprofile.metrics.annotation.Timed;
-
-import com.acmeair.faultTolerance.CustomerClientConnection;
-import com.acmeair.securityutils.SecurityUtils;
 
 @Path("/")
 public class AuthServiceRest {
@@ -43,14 +39,21 @@ public class AuthServiceRest {
         
   private static final String JWT_COOKIE_NAME = "jwt_token";
   private static final String USER_COOKIE_NAME = "loggedinuser";   
-      
+    
+  private static final Boolean SECURE_USER_CALLS = 
+          Boolean.valueOf((System.getenv("SECURE_USER_CALLS") == null) ? "true" 
+                  : System.getenv("SECURE_USER_CALLS"));
+    
   @Inject
-  private CustomerClientConnection customerClientConection;
-  
+  private CustomerClient customerClient;
     
   @Inject
   private SecurityUtils secUtils;
-        
+    
+  static {
+    System.out.println("SECURE_USER_CALLS: " + SECURE_USER_CALLS); 
+  }
+    
   /**
    * Login with username/password.
    */
@@ -58,7 +61,6 @@ public class AuthServiceRest {
   @Consumes({"application/x-www-form-urlencoded"})
   @Produces("text/plain")
   @Path("/login")
-  @Timed(name = "com.acmeair.web.AuthServiceRest.login", tags = "app=authservice-java")
   public Response login(@FormParam("login") String login, @FormParam("password") String password) {
     try {       
       if (logger.isLoggable(Level.FINE)) {
@@ -71,8 +73,7 @@ public class AuthServiceRest {
     
       // Generate simple JWT with login as the Subject 
       String token = "";
-      
-      if (secUtils.secureUserCalls()) {
+      if (SECURE_USER_CALLS) { 
         token = secUtils.generateJwt(login);
       }
             
@@ -91,9 +92,7 @@ public class AuthServiceRest {
     return Response.ok("OK").build();
   }
     
-  private boolean validateCustomer(String login, String password) 
-      throws TimeoutException, CircuitBreakerOpenException, InterruptedException, 
-      ExecutionException, java.util.concurrent.TimeoutException {
-    return customerClientConection.connect(login, password);
+  private boolean validateCustomer(String login, String password) {
+    return customerClient.validateCustomer(login, password);
   }
 }

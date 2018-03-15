@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2018 IBM Corp.
+* Copyright (c) 2017 IBM Corp.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,23 +16,19 @@
 
 package com.acmeair.client;
 
-public class LoginResponse {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import javax.inject.Qualifier;
 
-  private Boolean validated;
-
-
-  public LoginResponse() {}
-
-  public LoginResponse(Boolean validated) {
-      this.setValidated(validated);
-
-  }
-
-  public Boolean isValidated() {
-    return validated;
-  }
-
-  public void setValidated(Boolean validated) {
-    this.validated = validated;
-  }
+@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD,
+ ElementType.FIELD, ElementType.PARAMETER})
+public @interface ClientType {
+  /**
+  * Default to jaxrs client impl
+  */  
+  String value() default "jaxrs";
 }

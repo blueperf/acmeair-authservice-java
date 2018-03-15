@@ -9,26 +9,16 @@ spec:
     metadata:
       labels:
         name: auth-deployment
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9080"
     spec:
       containers:
       - name: authservice-java
-        image: authservice-java:latest
+        image: authservice-java:latest 
         ports:
           - containerPort: 9080
-          - containerPort: 9443
         imagePullPolicy: IfNotPresent
         env:
-        - name: USERNAME
-          value: admin
-        - name: PASSWORD
-          value: password
-        - name: JVM_ARGS
-          value: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://customer-service:9080"
-        - name: SECURE_SERVICE_CALLS
-          value: 'true'
+        - name: CUSTOMER_SERVICE
+          value: customer-service:9080
         - name: MB_KEYSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -48,18 +38,6 @@ spec:
             readOnly: true
           - name: liberty-config
             mountPath: /config/configDropins
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 9080
-          initialDelaySeconds: 10
-          periodSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 9080
-          initialDelaySeconds: 120
-          periodSeconds: 15
       volumes:
         - name: keystores
           secret:
