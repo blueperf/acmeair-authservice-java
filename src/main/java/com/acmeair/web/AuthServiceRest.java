@@ -87,7 +87,7 @@ public class AuthServiceRest {
   }
             
   @GET
-  public Response checkStatus() {
+  public Response status() {
     return Response.ok("OK").build();
   }
     
