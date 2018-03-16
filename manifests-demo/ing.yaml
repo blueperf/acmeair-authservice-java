@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+  name: acmeair-auth-ingress
+spec:
+  rules:
+  - host: INGRESS_URL
+    http:
+      paths:
+      - path: /auth
+        backend:
+          serviceName: acmeair-auth-service
+          servicePort: 9080
