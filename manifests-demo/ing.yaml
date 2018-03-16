@@ -2,9 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+    ingress.bluemix.net/rewrite-path: "serviceName=acmeair-auth-service rewrite=/"
   name: acmeair-auth-ingress
 spec:
   rules:
