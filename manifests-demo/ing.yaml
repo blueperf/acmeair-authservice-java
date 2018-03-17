@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     ingress.bluemix.net/rewrite-path: "serviceName=acmeair-auth-service rewrite=/;serviceName=acmeair-booking-service rewrite=/;serviceName=acmeair-customer-service rewrite=/;serviceName=acmeair-flight-service rewrite=/"
-  name: acmeair-auth-ingress
+  name: acmeair-ingress
 spec:
   rules:
   - host: INGRESS_URL
