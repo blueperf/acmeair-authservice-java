@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    ingress.bluemix.net/rewrite-path: "serviceName=acmeair-auth-service rewrite=/"
+    ingress.bluemix.net/rewrite-path: "serviceName=acmeair-auth-service rewrite=/;serviceName=acmeair-booking-service rewrite=/;serviceName=acmeair-customer-service rewrite=/;serviceName=acmeair-flight-service rewrite=/"
   name: acmeair-auth-ingress
 spec:
   rules:
@@ -13,3 +13,16 @@ spec:
         backend:
           serviceName: acmeair-auth-service
           servicePort: 9080
+      - path: /booking
+        backend:
+          serviceName: acmeair-booking-service
+          servicePort: 9080
+      - path: /customer
+        backend:
+          serviceName: acmeair-customer-service
+          servicePort: 9080
+      - path: /flight
+        backend:
+          serviceName: acmeair-flight-service
+          servicePort: 9080
+          
