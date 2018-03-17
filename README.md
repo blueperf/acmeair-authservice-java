@@ -16,4 +16,4 @@ See Documentation for the Main Service
 
 ## IBM Container Instructions
 
-See Documentation for the Main Service
+See Documentation for the [Main Service](https://github.com/blueperf/acmeair-mainservice-java)
