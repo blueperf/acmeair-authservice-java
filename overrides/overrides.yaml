@@ -1,0 +1,17 @@
+service:
+  enabled: true
+  name: acmeair-auth-service
+  port: 9080
+  targetPort: 9080
+  type: ClusterIP
+
+ssl:
+  enabled: false
+
+ingress:
+  enabled: true
+  rewriteTarget: "/"
+  path: "/auth"
+
+env:
+  jvmArgs: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://acmeair-customerservice:9080"
