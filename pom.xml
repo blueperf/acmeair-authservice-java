@@ -423,6 +423,11 @@
 									<features>
 										<acceptLicense>true</acceptLicense>
 										<feature>microProfile-1.3</feature>
+										<feature>jndi-1.0</feature>
+										<feature>jsp-2.3</feature>
+										<feature>servlet-3.1</feature>
+										<feature>managedBeans-1.0</feature>
+										<feature>websocket-1.1</feature>
 									</features>
 									<outputDirectory>target/liberty-alt-output-dir</outputDirectory>
 								</configuration>
