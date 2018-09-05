@@ -14,4 +14,4 @@ ingress:
   path: "/auth"
 
 env:
-  jvmArgs: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://acmeair-customerservice:9080"
+  jvmArgs: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
