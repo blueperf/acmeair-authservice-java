@@ -29,12 +29,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.faulttolerance.exceptions.CircuitBreakerOpenException;
 import org.eclipse.microprofile.faulttolerance.exceptions.TimeoutException;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.acmeair.faultTolerance.CustomerClientConnection;
-import com.acmeair.securityutils.SecurityUtils;
+import com.acmeair.client.CustomerClient;
+import com.acmeair.utils.ConfigPropertyHelper;
+import com.acmeair.utils.SecurityUtils;
 
 @Path("/")
 public class AuthServiceRest {
@@ -45,11 +48,11 @@ public class AuthServiceRest {
   private static final String USER_COOKIE_NAME = "loggedinuser";   
       
   @Inject
-  private CustomerClientConnection customerClientConection;
-  
-    
-  @Inject
-  private SecurityUtils secUtils;
+  @RestClient
+  private CustomerClient customerClient;
+      
+  @Inject 
+  ConfigPropertyHelper configProperties;
         
   /**
    * Login with username/password.
@@ -72,8 +75,8 @@ public class AuthServiceRest {
       // Generate simple JWT with login as the Subject 
       String token = "";
       
-      if (secUtils.secureUserCalls()) {
-        token = secUtils.generateJwt(login);
+      if (configProperties.secureUserCalls()) {
+        token = SecurityUtils.generateJwtForUser(login);
       }
             
       return Response.ok("logged in")
@@ -94,6 +97,11 @@ public class AuthServiceRest {
   private boolean validateCustomer(String login, String password) 
       throws TimeoutException, CircuitBreakerOpenException, InterruptedException, 
       ExecutionException, java.util.concurrent.TimeoutException {
-    return customerClientConection.connect(login, password);
+    if (configProperties.secureServiceCalls()) {
+      return customerClient.validateCustomerWithAuthorization(login,password).isValidated();
+    }
+    else { 
+      return customerClient.validateCustomerWithoutAuthorization(login,password).isValidated();
+    }
   }
 }

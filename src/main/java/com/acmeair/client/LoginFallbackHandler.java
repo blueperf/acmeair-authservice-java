@@ -14,17 +14,17 @@
 * limitations under the License.
 *******************************************************************************/
 
-package com.acmeair.faultTolerance;
+package com.acmeair.client;
 
 import org.eclipse.microprofile.faulttolerance.ExecutionContext;
 import org.eclipse.microprofile.faulttolerance.FallbackHandler;
 
-public class BooleanFallbackHandler implements FallbackHandler<Boolean> {
+public class LoginFallbackHandler implements FallbackHandler<LoginResponse> {
 
   @Override
-  public Boolean handle(ExecutionContext arg0) {
+  public LoginResponse handle(ExecutionContext arg0) {
     System.out.println("Login Failed - check connection to Customer Service.");
-    return false;
+    return new LoginResponse(false);
   }
 
 }
