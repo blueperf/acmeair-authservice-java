@@ -45,7 +45,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 @ApplicationScoped
 public class SecurityUtils { 
 
-  @Inject @ConfigProperty(name = "KEYSTORE_LOCATION", defaultValue = "/opt/ibm/wlp/output/defaultServer/resources/security/key.jks")
+  @Inject @ConfigProperty(name = "KEYSTORE_LOCATION", defaultValue = "/config/resources/security/key.jks")
   private String keyStoreLocation;
 
   //probably not a good idea to use as an env variable? But doing this for now.
