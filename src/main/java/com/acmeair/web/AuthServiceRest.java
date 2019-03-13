@@ -29,14 +29,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.faulttolerance.exceptions.CircuitBreakerOpenException;
 import org.eclipse.microprofile.faulttolerance.exceptions.TimeoutException;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.acmeair.client.CustomerClient;
-import com.acmeair.utils.ConfigPropertyHelper;
 import com.acmeair.utils.SecurityUtils;
 
 @Path("/")
@@ -46,14 +44,15 @@ public class AuthServiceRest {
         
   private static final String JWT_COOKIE_NAME = "jwt_token";
   private static final String USER_COOKIE_NAME = "loggedinuser";   
+  private static final String JWT_GROUP = "user";   
       
+  @Inject
+  private SecurityUtils secUtils;
+  
   @Inject
   @RestClient
   private CustomerClient customerClient;
-      
-  @Inject 
-  ConfigPropertyHelper configProperties;
-        
+               
   /**
    * Login with username/password.
    */
@@ -73,12 +72,9 @@ public class AuthServiceRest {
       }
     
       // Generate simple JWT with login as the Subject 
-      String token = "";
-      
-      if (configProperties.secureUserCalls()) {
-        token = SecurityUtils.generateJwtForUser(login);
-      }
-            
+      String token = secUtils.generateJwt(login, JWT_GROUP);
+                 
+      // TODO: The jwtToken is sent back as a cookie, should probably do something different here.
       return Response.ok("logged in")
               .header("Set-Cookie", JWT_COOKIE_NAME + "=" + token + "; Path=/")
               .header("Set-Cookie", USER_COOKIE_NAME + "=" + login + "; Path=/") .build();
@@ -97,11 +93,7 @@ public class AuthServiceRest {
   private boolean validateCustomer(String login, String password) 
       throws TimeoutException, CircuitBreakerOpenException, InterruptedException, 
       ExecutionException, java.util.concurrent.TimeoutException {
-    if (configProperties.secureServiceCalls()) {
-      return customerClient.validateCustomerWithAuthorization(login,password).isValidated();
-    }
-    else { 
-      return customerClient.validateCustomerWithoutAuthorization(login,password).isValidated();
-    }
+    
+      return customerClient.validateCustomer(login,password).isValidated();
   }
 }
