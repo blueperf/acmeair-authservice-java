@@ -24,7 +24,7 @@ import java.security.KeyStore;
 import java.security.PrivateKey;
 
 import java.security.interfaces.RSAPrivateKey;
-
+import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -39,6 +39,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
+import org.jose4j.jwk.RsaJsonWebKey;
 // This class is used by the auth-service to build JWTs. This is done by a third party at the moment, because I am
 // not aware of a spec api to use for this.
 
@@ -78,6 +79,8 @@ public class SecurityUtils {
 
       if (key instanceof PrivateKey) {
 
+        
+        new RsaJsonWebKey((RSAPublicKey) publicKey);
         // Get public Algorithm.
         Algorithm algorithm = Algorithm.RSA256((RSAPrivateKey) key);
 
