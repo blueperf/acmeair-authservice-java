@@ -25,5 +25,5 @@
 	<webApplication name="acmeair-authservice"
 		location="acmeair-authservice-java-2.0.0-SNAPSHOT.war" contextRoot="/" />
 
-        <keyStore id="defaultKeyStore" password="secret" location="/config/resources/security/key.jks"/>
+        <keyStore id="defaultKeyStore" password="secret" /> 
 </server>

@@ -232,12 +232,7 @@
 			<scope>provided</scope>
 			<version>7.0</version>
 		</dependency>
-		<dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>3.7.0</version>
-        </dependency>
-
+		
 		<!-- microprofile-1.2 -->
 		<dependency>
 			<groupId>org.eclipse.microprofile.config</groupId>
@@ -276,6 +271,11 @@
 			<artifactId>microprofile-rest-client-api</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<dependency>
+    <groupId>org.bitbucket.b_c</groupId>
+    <artifactId>jose4j</artifactId>
+    <version>0.6.5</version>
+</dependency>
 
 		<!-- Configure javametrics monitoring Dependencies -->
 		<dependency>
@@ -298,11 +298,6 @@
 			<scope>provided</scope>
 			<type>war</type>
 		</dependency>
-		<dependency>
-    <groupId>org.bitbucket.b_c</groupId>
-    <artifactId>jose4j</artifactId>
-    <version>0.6.5</version>
-</dependency>
 		<!-- End Configuring javametrics monitoring Dependencies -->
 	</dependencies>
 
