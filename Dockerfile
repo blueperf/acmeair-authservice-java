@@ -7,7 +7,7 @@ COPY src/main/liberty/config/server.xml /config/server.xml
 COPY /src/main/liberty/config/jvmbx.options /config/jvm.options
 COPY /target/acmeair-authservice-java-2.0.0-SNAPSHOT.war /config/apps/
 
-COPY key.p12 /output/resources/security/key.p12
+
 
 # Don't fail on rc 22 feature already installed
 RUN installUtility install --acceptLicense apmDataCollector-7.4 && installUtility install --acceptLicense defaultServer || if [ $? -ne 22 ]; then exit $?; fi
@@ -22,4 +22,4 @@ RUN \
     && rm /tmp/license.jar; \
   fi
 
-
+COPY key.p12 /output/resources/security/key.p12
