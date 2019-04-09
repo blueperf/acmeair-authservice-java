@@ -1,4 +1,5 @@
 FROM websphere-liberty:microProfile2
+
 # Install opentracing usr feature
 RUN wget -t 10 -x -nd -P /opt/ibm/wlp/usr https://github.com/WASdev/sample.opentracing.zipkintracer/releases/download/1.1.1/liberty-opentracing-zipkintracer-1.1.1-sample.zip && cd /opt/ibm/wlp/usr && unzip liberty-opentracing-zipkintracer-1.1.1-sample.zip && rm liberty-opentracing-zipkintracer-1.1.1-sample.zip
 
@@ -8,6 +9,7 @@ COPY --chown=1001:0 /target/liberty/wlp/usr/servers/defaultServer /config/
 COPY --chown=1001:0 src/main/liberty/config/server.xml /config/server.xml
 COPY --chown=1001:0 /src/main/liberty/config/jvmbx.options /config/jvm.options
 COPY --chown=1001:0 /target/acmeair-authservice-java-2.0.0-SNAPSHOT.war /config/apps/
+
 
 
 # Don't fail on rc 22 feature already installed
@@ -25,4 +27,4 @@ RUN \
     && rm /tmp/license.jar; \
   fi
 
-
+COPY key.p12 /output/resources/security/key.p12

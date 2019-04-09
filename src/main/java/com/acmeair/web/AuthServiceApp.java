@@ -28,6 +28,7 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/")
 public class AuthServiceApp extends Application {
   public Set<Class<?>> getClasses() {
-    return new HashSet<Class<?>>(Arrays.asList(AuthServiceRest.class,SessionConfiguration.class,HealthCheckRest.class));
+    return new HashSet<Class<?>>(
+        Arrays.asList(AuthServiceRest.class, SessionConfiguration.class, HealthCheckRest.class));
   }
 }
