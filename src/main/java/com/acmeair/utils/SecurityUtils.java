@@ -101,12 +101,14 @@ public class SecurityUtils {
       claims.setSubject(jwtSubject); 
       claims.setClaim("upn", jwtSubject); 
       List<String> groups = Arrays.asList(jwtGroup);
-      claims.setStringListClaim("groups", groups); 
+      claims.setStringListClaim("groups", groups);
+      claims.setJwtId("jti");
 
       JsonWebSignature jws = new JsonWebSignature();
       jws.setPayload(claims.toJson());
       jws.setKey(privateKey);      
       jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
+      jws.setHeader("typ", "JWT");
 
       token = jws.getCompactSerialization();
     } catch (Exception exception) {
