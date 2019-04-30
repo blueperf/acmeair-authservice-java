@@ -1,5 +1,3 @@
 -Xmx256m
--Dhttp.keepalive=true
 -Dhttp.maxConnections=100
-#-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://acmeair-nginx1/customer1
 
