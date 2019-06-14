@@ -16,19 +16,9 @@
 
 package com.acmeair.web;
 
-import com.acmeair.config.SessionConfiguration;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("/")
 public class AuthServiceApp extends Application {
-  public Set<Class<?>> getClasses() {
-    return new HashSet<Class<?>>(
-        Arrays.asList(AuthServiceRest.class, SessionConfiguration.class, HealthCheckRest.class));
-  }
 }

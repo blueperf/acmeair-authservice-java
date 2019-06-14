@@ -34,7 +34,7 @@ import org.eclipse.microprofile.faulttolerance.exceptions.TimeoutException;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.acmeair.client.CustomerClient;
+import com.acmeair.restclient.CustomerClient;
 import com.acmeair.utils.SecurityUtils;
 
 @Path("/")
@@ -60,7 +60,7 @@ public class AuthServiceRest {
   @Consumes({ "application/x-www-form-urlencoded" })
   @Produces("text/plain")
   @Path("/login")
-  @Timed(name = "com.acmeair.web.AuthServiceRest.login", tags = "app=authservice-java")
+  @Timed(name = "com.acmeair.web.AuthServiceRest.login", tags = "app=acmeair-authservice-java")
   public Response login(@FormParam("login") String login, @FormParam("password") String password) {
     try {
       if (logger.isLoggable(Level.FINE)) {
