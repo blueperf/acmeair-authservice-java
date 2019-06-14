@@ -3,27 +3,32 @@
   <!-- Enable features -->
   <featureManager>
     <feature>usr:opentracingZipkin-0.31</feature>
-    <feature>microProfile-2.2</feature>
     <feature>jndi-1.0</feature>
     <feature>jsp-2.3</feature>
     <feature>servlet-4.0</feature>
     <feature>managedBeans-1.0</feature>
     <feature>websocket-1.1</feature>
+    <feature>mpConfig-1.3</feature>
+    <feature>mpFaultTolerance-2.0</feature>
+    <feature>mpHealth-2.0</feature>
+    <feature>mpJwt-1.1</feature>
+    <feature>mpMetrics-2.0</feature>
+    <feature>mpOpenAPI-1.1</feature>
+    <feature>mpOpenTracing-1.3</feature>
+    <feature>mpRestClient-1.3</feature>
   </featureManager>
 
-	<!-- To access this server from a remote client add a host attribute to 
-		the following element, e.g. host="*" -->
-	<httpEndpoint id="defaultHttpEndpoint" host="*"
+  <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+  <httpEndpoint id="defaultHttpEndpoint" host="*"
 		httpPort="9080" httpsPort="9443">
-	</httpEndpoint>
+  </httpEndpoint>
 
-	<quickStartSecurity userName="${env.USERNAME}"
-		userPassword="${env.PASSWORD}" />
+  <opentracingZipkin />
 
-	<opentracingZipkin />
+  <webApplication name="acmeair-authservice" location="acmeair-authservice-java-3.0.0-SNAPSHOT.war" contextRoot="/">
+    <!-- enable visibility to third party apis -->
+    <classloader apiTypeVisibility="api,ibm-api,spec,stable,third-party"/>
+  </webApplication>
 
-	<webApplication name="acmeair-authservice"
-		location="acmeair-authservice-java-2.0.0-SNAPSHOT.war" contextRoot="/" />
-
-        <keyStore id="defaultKeyStore" password="secret" /> 
+  <keyStore id="defaultKeyStore" password="secret" /> 
 </server>
