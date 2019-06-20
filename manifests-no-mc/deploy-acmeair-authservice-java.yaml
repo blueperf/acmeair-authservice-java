@@ -26,7 +26,7 @@ spec:
         - name: PASSWORD
           value: password
         - name: JVM_ARGS
-          value: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
+          value: "-DcustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
         - name: SECURE_SERVICE_CALLS
           value: 'true'
         readinessProbe:
