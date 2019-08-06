@@ -21,8 +21,8 @@ COPY --chown=1001:0 /target/acmeair-authservice-java-3.0.0-SNAPSHOT.war /config/
 COPY --chown=1001:0 key.p12 /output/resources/security/key.p12
 
 # https://github.com/WASdev/ci.docker/#enterprise-functionality
-#ARG HTTP_ENDPOINT=true
-ARG MP_MONITORING=true
+ARG HTTP_ENDPOINT=true
+#ARG MP_MONITORING=true
 RUN configure.sh || if [ $? -ne 22 ]; then exit $?; fi
 
 
