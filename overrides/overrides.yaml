@@ -9,16 +9,16 @@ ssl:
   enabled: false
 
 ingress:
-    enabled: true
-    rewriteTarget: "/$2"
-    path: "/auth(/|$)(.*)"
-    host: ""
-    secretName: ""
-    annotations:
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-      nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
-      ingress.kubernetes.io/ssl-redirect: "false"
-      ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+  enabled: true
+  rewriteTarget: "/$2"
+  path: "/auth(/|$)(.*)"
+  host: ""
+  secretName: ""
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/connection-proxy-header: "keep-alive"
 
 env:
   jvmArgs: "-DcustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
