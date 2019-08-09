@@ -21,4 +21,4 @@ ingress:
     ingress.kubernetes.io/connection-proxy-header: "keep-alive"
 
 env:
-  jvmArgs: "-Dcom.acmeair.client.CustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
+  jvmArgs: "-DcustomerClient/mp-rest/url=http://acmeair-customer-service:9080"

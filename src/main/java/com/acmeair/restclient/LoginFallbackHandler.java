@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-package com.acmeair.client;
+package com.acmeair.restclient;
 
 import org.eclipse.microprofile.faulttolerance.ExecutionContext;
 import org.eclipse.microprofile.faulttolerance.FallbackHandler;
