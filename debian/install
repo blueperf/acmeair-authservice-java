@@ -1,3 +1,0 @@
-target/liberty/wlp/usr/servers/defaultServer/acmeairauthservicejava.zip	usr/src/acmeairauthservicejava
-terraform/scripts/install.sh	usr/src/acmeairauthservicejava
-terraform/scripts/start.sh		usr/src/acmeairauthservicejava
