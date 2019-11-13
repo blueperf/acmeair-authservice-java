@@ -11,6 +11,7 @@ ssl:
 ingress:
   enabled: true
   path: "/auth"
+  rewriteTarget: "/auth"
   host: ""
   secretName: ""
   annotations:
