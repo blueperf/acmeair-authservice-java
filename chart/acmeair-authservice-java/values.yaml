@@ -212,8 +212,8 @@ ibm-websphere-liberty:
 
   ingress:
     enabled: true
-    rewriteTarget: "/$2"
-    path: "/auth(/|$)(.*)"
+    path: "/auth"
+    rewriteTarget: "/auth"
     host: ""
     secretName: ""
     annotations:
@@ -317,7 +317,7 @@ ibm-websphere-liberty:
   ## Environmental variables
   ###############################################################################
   env:
-    jvmArgs: "-DcustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
+    jvmArgs: "-DcustomerClient/mp-rest/url=http://acmeair-customer-service:9080/customer"
 
   ###############################################################################
   ## Session cache

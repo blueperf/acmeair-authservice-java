@@ -10,8 +10,8 @@ ssl:
 
 ingress:
   enabled: true
-  rewriteTarget: "/$2"
-  path: "/auth(/|$)(.*)"
+  path: "/auth"
+  rewriteTarget: "/auth"
   host: ""
   secretName: ""
   annotations:
@@ -21,4 +21,4 @@ ingress:
     ingress.kubernetes.io/connection-proxy-header: "keep-alive"
 
 env:
-  jvmArgs: "-DcustomerClient/mp-rest/url=http://acmeair-customer-service:9080"
+  jvmArgs: "-DcustomerClient/mp-rest/url=http://acmeair-customer-service:9080/customer"
