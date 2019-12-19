@@ -11,7 +11,7 @@ RUN chown 1001:0 /config/server.xml
 RUN chown 1001:0 /config/server.env
 RUN chown 1001:0 /config/jvm.options
 RUN chown 1001:0 /config/apps/acmeair-authservice-java-3.0.war
-RUN chown 1001:0 /output/resources/security/key.p12
+RUN chown -R 1001:0 /output/resources
 USER 1001
 
 RUN configure.sh || if [ $? -ne 22 ]; then exit $?; fi
