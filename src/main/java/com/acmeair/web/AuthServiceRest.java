@@ -81,7 +81,7 @@ public class AuthServiceRest {
 
     } catch (Exception e) {
       e.printStackTrace();
-      return null;
+      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
   }
 
@@ -100,6 +100,10 @@ public class AuthServiceRest {
   private boolean validateCustomer(String login, String password) throws TimeoutException, CircuitBreakerOpenException,
       InterruptedException, ExecutionException, java.util.concurrent.TimeoutException {
 
+    if (secUtils.isCustomerValidationDisabled()) {
+      return true;
+    }
+    
     return customerClient.validateCustomer(login, password).isValidated();
   }
 }
