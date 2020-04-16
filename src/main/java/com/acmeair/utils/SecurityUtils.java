@@ -33,7 +33,6 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jose4j.jwk.RsaJsonWebKey;
-import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.lang.JoseException;
@@ -57,6 +56,9 @@ public class SecurityUtils {
   @Inject @ConfigProperty(name = "JWT_ISSUER", defaultValue = "http://acmeair-ms")
   private String jwtIssuer;
   
+  @Inject @ConfigProperty(name = "JWT_ALGORITHM", defaultValue = "RS256")
+  private String jwtAlgorithm;
+
   // Only used for testing the authservice itself.
   @Inject @ConfigProperty(name = "DISABLE_CUSTOMER_VALIDATION", defaultValue = "false")
   private boolean customerValidationDisabled;
@@ -64,12 +66,10 @@ public class SecurityUtils {
   private PrivateKey privateKey;
   private RsaJsonWebKey jwk;
 
-
   @PostConstruct
   private void init() {
 
     //Get the private key to generate JWTs and create the public JWK to send to the booking/customer service.
-
     try {
       FileInputStream is = new FileInputStream(keyStoreLocation);
 
@@ -96,32 +96,32 @@ public class SecurityUtils {
 
     String token = "";
 
-      JwtClaims claims = new JwtClaims();
-      claims.setIssuer(jwtIssuer);  
+    JwtClaims claims = new JwtClaims();
+    claims.setIssuer(jwtIssuer);  
 
-      claims.setExpirationTimeMinutesInTheFuture(60); 
-      claims.setGeneratedJwtId(); 
-      claims.setIssuedAtToNow(); 
-      claims.setSubject(jwtSubject); 
-      claims.setClaim("upn", jwtSubject); 
-      List<String> groups = Arrays.asList(jwtGroup);
-      claims.setStringListClaim("groups", groups);
-      claims.setJwtId("jti");
+    claims.setExpirationTimeMinutesInTheFuture(60); 
+    claims.setGeneratedJwtId(); 
+    claims.setIssuedAtToNow(); 
+    claims.setSubject(jwtSubject); 
+    claims.setClaim("upn", jwtSubject); 
+    List<String> groups = Arrays.asList(jwtGroup);
+    claims.setStringListClaim("groups", groups);
+    claims.setJwtId("jti");
 
-      JsonWebSignature jws = new JsonWebSignature();
-      jws.setPayload(claims.toJson());
-      jws.setKey(privateKey);      
-      jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
-      jws.setHeader("typ", "JWT");
+    JsonWebSignature jws = new JsonWebSignature();
+    jws.setPayload(claims.toJson());
+    jws.setKey(privateKey);      
+    jws.setAlgorithmHeaderValue(jwtAlgorithm);
+    jws.setHeader("typ", "JWT");
 
-      token = jws.getCompactSerialization();
+    token = jws.getCompactSerialization();
     return token;
   }
 
   public RsaJsonWebKey getJwk() {
     return jwk;
   }
-  
+
   public boolean isCustomerValidationDisabled() {
     return customerValidationDisabled;
   }
