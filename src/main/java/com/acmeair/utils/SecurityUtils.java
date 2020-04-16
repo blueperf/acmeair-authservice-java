@@ -36,6 +36,7 @@ import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
+import org.jose4j.lang.JoseException;
 
 // This class is used by the auth-service to build JWTs. This is done by a third party at the moment, because I am
 // not aware of a spec api to use for this.
@@ -55,6 +56,10 @@ public class SecurityUtils {
 
   @Inject @ConfigProperty(name = "JWT_ISSUER", defaultValue = "http://acmeair-ms")
   private String jwtIssuer;
+  
+  // Only used for testing the authservice itself.
+  @Inject @ConfigProperty(name = "DISABLE_CUSTOMER_VALIDATION", defaultValue = "false")
+  private boolean customerValidationDisabled;
 
   private PrivateKey privateKey;
   private RsaJsonWebKey jwk;
@@ -85,12 +90,11 @@ public class SecurityUtils {
 
   /**
    *  Generate a JWT with login as the Subject. 
+   * @throws JoseException 
    */
-  public String generateJwt(String jwtSubject, String jwtGroup) {
+  public String generateJwt(String jwtSubject, String jwtGroup) throws JoseException {
 
     String token = "";
-
-    try {
 
       JwtClaims claims = new JwtClaims();
       claims.setIssuer(jwtIssuer);  
@@ -111,14 +115,14 @@ public class SecurityUtils {
       jws.setHeader("typ", "JWT");
 
       token = jws.getCompactSerialization();
-    } catch (Exception exception) {
-      exception.printStackTrace(); 
-    }
-
     return token;
   }
 
   public RsaJsonWebKey getJwk() {
     return jwk;
+  }
+  
+  public boolean isCustomerValidationDisabled() {
+    return customerValidationDisabled;
   }
 }
