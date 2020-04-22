@@ -14,6 +14,6 @@ RUN chown 1001:0 /config/apps/acmeair-authservice-java-3.3.war
 RUN chown -R 1001:0 /output/resources
 USER 1001
 
-RUN configure.sh || if [ $? -ne 22 ]; then exit $?; fi
+RUN configure.sh
 
 
