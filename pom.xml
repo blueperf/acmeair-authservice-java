@@ -10,7 +10,7 @@
    <version>3.3</version>
    <artifactId>acmeair-authservice-java</artifactId>
    <packaging>war</packaging>
-   <name>acmeair-authservice-java</name>
+   <!--<name>acmeair-authservice-java</name>-->
    <properties>
       <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
       <version.download-maven-plugin>1.4.0</version.download-maven-plugin>
@@ -21,7 +21,7 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <!-- tag::appdetails[] -->
-      <app.name>acmeair-authservice-java</app.name>
+      <app.name>${artifactId}-${version}</app.name>
       <testServerHttpPort>9080</testServerHttpPort>
       <testServerHttpsPort>9443</testServerHttpsPort>
       <!-- end::appdetails[] -->
@@ -98,9 +98,7 @@
                   <version>RELEASE</version>
                   <type>zip</type>
                </assemblyArtifact>
-               <configFile>src/main/liberty/config/server.xml</configFile>
-               <serverEnvFile>src/main/liberty/config/server.env</serverEnvFile>
-               <jvmOptionsFile>src/main/liberty/config/jvm.options</jvmOptionsFile>
+               <configDirectory>src/main/liberty/config</configDirectory>
                <packageFile>${package.file}</packageFile>
                <include>${packaging.type}</include>
                <!-- tag::bootstrap[] -->
@@ -116,7 +114,7 @@
                   <id>install-apps</id>
                   <configuration>
                      <looseApplication>true</looseApplication>
-                     <stripVersion>true</stripVersion>
+                     <stripVersion>false</stripVersion>
                      <installAppPackages>project</installAppPackages>
                   </configuration>
                </execution>
