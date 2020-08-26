@@ -12,7 +12,7 @@
 
   <quickStartSecurity userName="${env.USERNAME}" userPassword="${env.PASSWORD}" />
 
-  <webApplication name="acmeair-authservice" location="acmeair-authservice-java-3.3.war" contextRoot="/auth">
+  <webApplication name="acmeair-authservice" location="acmeair-authservice-java-4.0.war" contextRoot="/auth">
     <!-- enable visibility to third party apis -->
     <classloader apiTypeVisibility="api,ibm-api,spec,stable,third-party"/>
   </webApplication>
