@@ -30,6 +30,12 @@ spec:
           value: password
         - name: ACMEAIR_STACKAA_CUSTOMER_URL
           value: "http://acmeair-customer-service:9080/customer"
+        - name: JAEGER_AGENT_HOST
+          value: jaeger-all-in-one-inmemory-agent
+        - name: JAEGER_AGENT_PORT
+          value: '6832'
+        - name: JAEGER_ENDPOINT
+          value: 'http://jaeger-all-in-one-inmemory-collector:14268/api/traces'
         readinessProbe:
           httpGet:
             path: /health
@@ -49,6 +55,22 @@ metadata:
   name: acmeair-auth-service
 spec:
   ports:
-    - port: 9080
+    - name: 9080-tcp
+      protocol: TCP
+      port: 9080
+      targetPort: 9080
+  selector:
+    name: acmeair-auth-deployment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: acmeair-secure-auth-service
+spec:
+  ports:
+    - name: 9443-tcp
+      protocol: TCP
+      port: 9443
+      targetPort: 9443
   selector:
     name: acmeair-auth-deployment
