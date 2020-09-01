@@ -10,6 +10,7 @@ COPY --chown=1001:0 src/main/liberty/config/resources/security/key.p12 /config/r
 ARG CREATE_OPENJ9_SCC=true
 ENV OPENJ9_SCC=${CREATE_OPENJ9_SCC}
 ENV ACCESS_LOGGING_ENABLED=false
+ENV TRACE_SPEC=*=info
 
 RUN configure.sh
 
