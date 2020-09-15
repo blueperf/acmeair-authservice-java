@@ -8,7 +8,7 @@ ENV JAEGER_SAMPLER_TYPE=const
 ENV JAEGER_SAMPLER_PARAM=1
 
 COPY target/acmeair-authservice-java-4.0.war /opt/jboss/wildfly/standalone/deployments/
-COPY key.p12 /opt/boss/wildfly/
+COPY src/main/liberty/config/resources/security/key.p12 /opt/boss/wildfly/key.p12
 
 # Avoid annoying CDi INFO Message
 RUN sed -i 's/<level name="INFO"/<level name="WARN"/' /opt/jboss/wildfly/standalone/configuration/standalone-microprofile.xml
