@@ -42,7 +42,7 @@ public class AuthServiceRest {
 
   private static final Logger logger = Logger.getLogger(AuthServiceRest.class.getName());
 
-  private static final String JWT_COOKIE_NAME = "jwt_token";
+  private static final String JWT_COOKIE_NAME = "Bearer";
   private static final String USER_COOKIE_NAME = "loggedinuser";
   private static final String JWT_GROUP = "user";
 
