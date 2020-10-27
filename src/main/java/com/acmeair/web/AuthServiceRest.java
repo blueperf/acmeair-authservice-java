@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -37,6 +38,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import com.acmeair.restclient.CustomerClient;
 import com.acmeair.utils.SecurityUtils;
 
+@ApplicationScoped
 @Path("/")
 public class AuthServiceRest {
 
@@ -74,8 +76,7 @@ public class AuthServiceRest {
       // Generate simple JWT with login as the Subject
       String token = secUtils.generateJwt(login, JWT_GROUP);
 
-      // TODO: The jwtToken is sent back as a cookie, should probably do
-      // something different here.
+      // The jwtToken is sent back as a cookie
       return Response.ok("logged in").header("Set-Cookie", JWT_COOKIE_NAME + "=" + token + "; Path=/")
           .header("Set-Cookie", USER_COOKIE_NAME + "=" + login + "; Path=/").build();
 
