@@ -129,16 +129,16 @@ public class SecurityUtils {
       return jwsString;
     } 
       
-  	JsonWebEncryption jwe = new JsonWebEncryption();
+    JsonWebEncryption jwe = new JsonWebEncryption();
     jwe.setAlgorithmHeaderValue(jweAlgorithmHeaderValue);
-	  jwe.setEncryptionMethodHeaderParameter(encryptionMethodHeaderParameter);
+    jwe.setEncryptionMethodHeaderParameter(encryptionMethodHeaderParameter);
 
-		jwe.setKey(publicKey);
-		jwe.setContentTypeHeaderValue("JWT");
-		jwe.setPayload(jwsString);
+    jwe.setKey(publicKey);
+    jwe.setContentTypeHeaderValue("JWT");
+    jwe.setPayload(jwsString);
 
      // return JWE
-		 return jwe.getCompactSerialization();  
+     return jwe.getCompactSerialization();  
   }
 
   public RsaJsonWebKey getJwk() {
