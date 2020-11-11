@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.security.KeyStore;
 
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
@@ -32,6 +31,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jose4j.jwe.JsonWebEncryption;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
@@ -59,11 +59,21 @@ public class SecurityUtils {
   @Inject @ConfigProperty(name = "JWT_ALGORITHM", defaultValue = "RS256")
   private String jwtAlgorithm;
 
+  @Inject @ConfigProperty(name = "ENCRYPT_JWT", defaultValue = "false")
+  private boolean buildJWE;
+
+  @Inject @ConfigProperty(name = "JWE_ALGORITHM_HEADER_VALUE", defaultValue = "RSA-OAEP-256")
+  private String jweAlgorithmHeaderValue;
+
+  @Inject @ConfigProperty(name = "JWE_ENC_METHOD_HEADER_PARAM", defaultValue = "A256GCM")
+  private String encryptionMethodHeaderParameter;
+  
   // Only used for testing the authservice itself.
   @Inject @ConfigProperty(name = "DISABLE_CUSTOMER_VALIDATION", defaultValue = "false")
   private boolean customerValidationDisabled;
 
   private PrivateKey privateKey;
+  private RSAPublicKey publicKey;
   private RsaJsonWebKey jwk;
 
   @PostConstruct
@@ -78,9 +88,9 @@ public class SecurityUtils {
       keystore.load(is, keyStorePassword.toCharArray());
       privateKey = (PrivateKey) keystore.getKey(keyStoreAlias, keyStorePassword.toCharArray());
       Certificate cert = keystore.getCertificate(keyStoreAlias);  
-      PublicKey publicKey = (PublicKey) cert.getPublicKey();  
+      publicKey = (RSAPublicKey) cert.getPublicKey();  
 
-      jwk = new RsaJsonWebKey((RSAPublicKey) publicKey);
+      jwk = new RsaJsonWebKey(publicKey);
 
 
     } catch (Exception e) {
@@ -93,9 +103,7 @@ public class SecurityUtils {
    * @throws JoseException 
    */
   public String generateJwt(String jwtSubject, String jwtGroup) throws JoseException {
-
-    String token = "";
-
+    
     JwtClaims claims = new JwtClaims();
     claims.setIssuer(jwtIssuer);  
 
@@ -114,8 +122,23 @@ public class SecurityUtils {
     jws.setAlgorithmHeaderValue(jwtAlgorithm);
     jws.setHeader("typ", "JWT");
 
-    token = jws.getCompactSerialization();
-    return token;
+    String jwsString = jws.getCompactSerialization();
+
+    if (!buildJWE) {
+      // return signed JWT.
+      return jwsString;
+    } 
+      
+    JsonWebEncryption jwe = new JsonWebEncryption();
+    jwe.setAlgorithmHeaderValue(jweAlgorithmHeaderValue);
+    jwe.setEncryptionMethodHeaderParameter(encryptionMethodHeaderParameter);
+
+    jwe.setKey(publicKey);
+    jwe.setContentTypeHeaderValue("JWT");
+    jwe.setPayload(jwsString);
+
+     // return JWE
+     return jwe.getCompactSerialization();  
   }
 
   public RsaJsonWebKey getJwk() {
