@@ -9,6 +9,12 @@ This implementation can support running on a variety of runtime platforms includ
 * Instructions for [setting up and building the codebase](Build_Instructions.md)
 
 
+## Liberty Branch
+In this branch (liberty-jwtBuilder), the URL to get the JWK is different for the customer and booking services, should be something like:
+```
+- JVM_ARGS=-Dmp.jwt.verify.publickey.location=http://acmeair-authservice-java:9080/jwt/ibm/api/defaultJWT/jwk
+```
+
 ## Docker Instructions
 
 See Documentation for the [Main Service](https://github.com/blueperf/acmeair-mainservice-java)

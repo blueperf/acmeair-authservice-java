@@ -16,133 +16,68 @@
 
 package com.acmeair.utils;
 
-import java.io.FileInputStream;
-
-import java.security.KeyStore;
-
-import java.security.PrivateKey;
-import java.security.cert.Certificate;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jose4j.jwe.JsonWebEncryption;
-import org.jose4j.jwk.RsaJsonWebKey;
-import org.jose4j.jws.JsonWebSignature;
-import org.jose4j.jwt.JwtClaims;
-import org.jose4j.lang.JoseException;
+import com.ibm.websphere.security.jwt.InvalidBuilderException;
+import com.ibm.websphere.security.jwt.InvalidClaimException;
+import com.ibm.websphere.security.jwt.JwtBuilder;
+import com.ibm.websphere.security.jwt.JwtException;
+import com.ibm.websphere.security.jwt.KeyException;
 
-// This class is used by the auth-service to build JWTs. This is done by a third party at the moment, because I am
-// not aware of a spec api to use for this.
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+// This class is used by the auth-service to build JWTs. This is the Liberty way to do it.
 
 @ApplicationScoped
 public class SecurityUtils {
 
-  @Inject @ConfigProperty(name = "KEYSTORE_LOCATION", defaultValue = "/output/resources/security/key.p12")
-  private String keyStoreLocation;
-
-  //probably not a good idea to use as an env variable? But doing this for now.
-  @Inject @ConfigProperty(name = "KEYSTORE_PASSWORD", defaultValue = "secret")
-  private String keyStorePassword;
-
-  @Inject @ConfigProperty(name = "KEYSTORE_ALIAS", defaultValue = "default")
-  private String keyStoreAlias;
-
-  @Inject @ConfigProperty(name = "JWT_ISSUER", defaultValue = "http://acmeair-ms")
+  @Inject
+  @ConfigProperty(name = "JWT_ISSUER", defaultValue = "http://acmeair-ms")
   private String jwtIssuer;
-  
-  @Inject @ConfigProperty(name = "JWT_ALGORITHM", defaultValue = "RS256")
+
+  @Inject
+  @ConfigProperty(name = "JWT_ALGORITHM", defaultValue = "RS256")
   private String jwtAlgorithm;
 
-  @Inject @ConfigProperty(name = "ENCRYPT_JWT", defaultValue = "false")
+  /* This does not work yet 
+  @Inject
+  @ConfigProperty(name = "ENCRYPT_JWT", defaultValue = "false")
   private boolean buildJWE;
 
-  @Inject @ConfigProperty(name = "JWE_ALGORITHM_HEADER_VALUE", defaultValue = "RSA-OAEP-256")
+  @Inject
+  @ConfigProperty(name = "JWE_ALGORITHM_HEADER_VALUE", defaultValue = "RSA-OAEP-256")
   private String jweAlgorithmHeaderValue;
 
-  @Inject @ConfigProperty(name = "JWE_ENC_METHOD_HEADER_PARAM", defaultValue = "A256GCM")
+  @Inject
+  @ConfigProperty(name = "JWE_ENC_METHOD_HEADER_PARAM", defaultValue = "A256GCM")
   private String encryptionMethodHeaderParameter;
-  
+  */
   // Only used for testing the authservice itself.
-  @Inject @ConfigProperty(name = "DISABLE_CUSTOMER_VALIDATION", defaultValue = "false")
+  @Inject
+  @ConfigProperty(name = "DISABLE_CUSTOMER_VALIDATION", defaultValue = "false")
   private boolean customerValidationDisabled;
 
-  private PrivateKey privateKey;
-  private RSAPublicKey publicKey;
-  private RsaJsonWebKey jwk;
-
-  @PostConstruct
-  private void init() {
-
-    //Get the private key to generate JWTs and create the public JWK to send to the booking/customer service.
-    try {
-      FileInputStream is = new FileInputStream(keyStoreLocation);
-
-      // For now use the p12 key generated for the service
-      KeyStore keystore = KeyStore.getInstance("PKCS12");
-      keystore.load(is, keyStorePassword.toCharArray());
-      privateKey = (PrivateKey) keystore.getKey(keyStoreAlias, keyStorePassword.toCharArray());
-      Certificate cert = keystore.getCertificate(keyStoreAlias);  
-      publicKey = (RSAPublicKey) cert.getPublicKey();  
-
-      jwk = new RsaJsonWebKey(publicKey);
-
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   /**
-   *  Generate a JWT with login as the Subject. 
-   * @throws JoseException 
+   * Generate a JWT with login as the Subject.
+   * 
+   * @throws InvalidBuilderException
+   * @throws InvalidClaimException
+   * @throws KeyException
+   * @throws JwtException
    */
-  public String generateJwt(String jwtSubject, String jwtGroup) throws JoseException {
+  public String generateJwt(String jwtSubject, String jwtGroup)
+      throws InvalidBuilderException, InvalidClaimException, KeyException, JwtException {
     
-    JwtClaims claims = new JwtClaims();
-    claims.setIssuer(jwtIssuer);  
-
-    claims.setExpirationTimeMinutesInTheFuture(60); 
-    claims.setGeneratedJwtId(); 
-    claims.setIssuedAtToNow(); 
-    claims.setSubject(jwtSubject); 
-    claims.setClaim("upn", jwtSubject); 
-    List<String> groups = Arrays.asList(jwtGroup);
-    claims.setStringListClaim("groups", groups);
-    claims.setJwtId("jti");
-
-    JsonWebSignature jws = new JsonWebSignature();
-    jws.setPayload(claims.toJson());
-    jws.setKey(privateKey);      
-    jws.setAlgorithmHeaderValue(jwtAlgorithm);
-    jws.setHeader("typ", "JWT");
-
-    String jwsString = jws.getCompactSerialization();
-
-    if (!buildJWE) {
-      // return signed JWT.
-      return jwsString;
-    } 
-      
-    JsonWebEncryption jwe = new JsonWebEncryption();
-    jwe.setAlgorithmHeaderValue(jweAlgorithmHeaderValue);
-    jwe.setEncryptionMethodHeaderParameter(encryptionMethodHeaderParameter);
-
-    jwe.setKey(publicKey);
-    jwe.setContentTypeHeaderValue("JWT");
-    jwe.setPayload(jwsString);
-
-     // return JWE
-     return jwe.getCompactSerialization();  
-  }
-
-  public RsaJsonWebKey getJwk() {
-    return jwk;
+    return JwtBuilder.create()
+      .issuer(jwtIssuer)
+      .claim("upn", jwtSubject)
+      .claim("groups",Arrays.asList(jwtGroup))
+      .jwtId(true)
+      .subject(jwtSubject)
+      .buildJwt().compact();       
   }
 
   public boolean isCustomerValidationDisabled() {

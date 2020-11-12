@@ -18,6 +18,9 @@
 
   <quickStartSecurity userName="${env.USERNAME}" userPassword="${env.PASSWORD}" />
 
+  <jwtBuilder id="defaultJWT">
+  </jwtBuilder>
+
   <logging consoleFormat="${LOGGING_FORMAT}" consoleSource="message,trace,accessLog,ffdc,audit" messageFormat="${LOGGING_FORMAT}" messageSource="message,trace,accessLog,ffdc,audit" traceSpecification="${TRACE_SPEC}" />
  
   <webApplication name="acmeair-authservice" location="acmeair-authservice-java-4.0.war" contextRoot="/auth">

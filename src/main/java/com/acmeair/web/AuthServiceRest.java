@@ -87,13 +87,6 @@ public class AuthServiceRest {
   }
 
   @GET
-  @Produces("application/json")
-  @Path("/getJwk")
-  public Response getJwk() {
-    return Response.ok(secUtils.getJwk().toJson()).build();
-  }
-
-  @GET
   public Response status() {
     return Response.ok("OK").build();
   }
