@@ -45,7 +45,7 @@
                       <param>-DDISABLE_CUSTOMER_VALIDATION=true</param>
                     </jvmOptions>
                     <install>
-                      <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2020-11-06_1100/openliberty-all-20.0.0.12-cl201220201106-1100.zip</runtimeUrl>
+                      <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2020-11-10_1100/openliberty-all-20.0.0.12-cl201220201110-1100.zip</runtimeUrl>
                     </install>
                 </configuration>
          </plugin>
