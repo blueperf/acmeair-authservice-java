@@ -62,7 +62,7 @@ public class SecurityUtils {
   @Inject @ConfigProperty(name = "ENCRYPT_JWT", defaultValue = "false")
   private boolean buildJWE;
 
-  @Inject @ConfigProperty(name = "JWE_ALGORITHM_HEADER_VALUE", defaultValue = "RSA-OAEP-256")
+  @Inject @ConfigProperty(name = "JWE_ALGORITHM_HEADER_VALUE", defaultValue = "RSA-OAEP")
   private String jweAlgorithmHeaderValue;
 
   @Inject @ConfigProperty(name = "JWE_ENC_METHOD_HEADER_PARAM", defaultValue = "A256GCM")
@@ -114,7 +114,6 @@ public class SecurityUtils {
     claims.setClaim("upn", jwtSubject); 
     List<String> groups = Arrays.asList(jwtGroup);
     claims.setStringListClaim("groups", groups);
-    claims.setJwtId("jti");
 
     JsonWebSignature jws = new JsonWebSignature();
     jws.setPayload(claims.toJson());
