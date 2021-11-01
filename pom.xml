@@ -113,14 +113,12 @@
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-api -->
-<dependency>
-  <groupId>jakarta.platform</groupId>
-  <artifactId>jakarta.jakartaee-api</artifactId>
-  <version>9.1.0</version>
-  <scope>provided</scope>
-</dependency>
-
+    <dependency>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-api</artifactId>
+      <version>9.1.0</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>io.jaegertracing</groupId>
       <artifactId>jaeger-client</artifactId>

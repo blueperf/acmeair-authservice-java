@@ -19,6 +19,7 @@ package com.acmeair.restclient;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.POST;
@@ -31,6 +32,7 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+@ApplicationScoped
 @RegisterRestClient(configKey="customerClient")
 @Path("/")
 public interface CustomerClient {
