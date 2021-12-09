@@ -109,14 +109,8 @@
     <dependency>
       <groupId>org.eclipse.microprofile</groupId>
       <artifactId>microprofile</artifactId>
-      <version>5.0-RC1</version>
+      <version>5.0</version>
       <type>pom</type>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.platform</groupId>
-      <artifactId>jakarta.jakartaee-api</artifactId>
-      <version>9.1.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -134,7 +128,6 @@
       <artifactId>jose4j</artifactId>
       <version>0.7.5</version>
     </dependency>
-
     <!-- For tests 
     <dependency>
       <groupId>junit</groupId>
