@@ -18,7 +18,6 @@
     </accessLogging>
   </httpEndpoint>
 
-  <monitor filter="REST" />
   <quickStartSecurity userName="${env.USERNAME}" userPassword="${env.PASSWORD}" />
 
   <logging 
