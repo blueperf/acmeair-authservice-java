@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package it.com.acmeair.tests;
+/*package it.com.acmeair.tests;
 
 import static org.junit.Assert.assertEquals;
 
@@ -143,4 +143,4 @@ public class AuthServiceTests {
   }
 
       
-}
+}*/

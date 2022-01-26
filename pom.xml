@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>acmeair-authservice-java</groupId>
-  <version>4.1</version>
+  <version>5.0</version>
   <artifactId>acmeair-authservice-java</artifactId>
   <packaging>war</packaging>
   <properties>
@@ -44,9 +44,9 @@
             <param>-DKEYSTORE_LOCATION=${project.basedir}/src/main/liberty/config/resources/security/key.p12</param>
             <param>-DDISABLE_CUSTOMER_VALIDATION=true</param>
           </jvmOptions>
-          <!--<install>
-            <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2020-11-10_1100/openliberty-all-20.0.0.12-cl201220201110-1100.zip</runtimeUrl>
-          </install>-->
+          <install>
+            <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2021-11-08_1100/openliberty-all-21.0.0.12-cl211220211108-1100.zip</runtimeUrl>
+          </install>
         </configuration>
       </plugin>
       <!-- Plugin to run unit tests -->
@@ -109,9 +109,9 @@
     <dependency>
       <groupId>org.eclipse.microprofile</groupId>
       <artifactId>microprofile</artifactId>
-      <scope>provided</scope>
+      <version>5.0</version>
       <type>pom</type>
-      <version>4.1-RC1</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.jaegertracing</groupId>
@@ -128,8 +128,7 @@
       <artifactId>jose4j</artifactId>
       <version>0.7.5</version>
     </dependency>
-
-    <!-- For tests -->
+    <!-- For tests 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -165,6 +164,6 @@
       <artifactId>jaxb-api</artifactId>
       <version>2.3.0</version>
       <scope>test</scope>
-    </dependency>
+    </dependency>-->
   </dependencies>
 </project>
