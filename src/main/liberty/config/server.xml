@@ -29,18 +29,10 @@
     messageSource="message,trace,accessLog,ffdc,audit" 
     traceSpecification="${TRACE_SPEC}" />
 
-  <webApplication name="acmeair-authservice" location="acmeair-authservice-java-5.0.war" contextRoot="/auth">
+  <webApplication name="acmeair-authservice" location="acmeair-authservice-java-5.0.war" contextRoot="/">
     <!-- enable visibility to third party apis -->
     <classloader apiTypeVisibility="api,ibm-api,spec,stable,third-party" />
   </webApplication>
 
   <keyStore id="defaultKeyStore" password="secret" />
-
-  <cors 
-    domain="/auth" 
-    allowedOrigins="*" 
-    allowedMethods="GET, DELETE, POST, OPTIONS" 
-    allowedHeaders="*" 
-    allowCredentials="true" 
-    maxAge="3600" />
 </server>

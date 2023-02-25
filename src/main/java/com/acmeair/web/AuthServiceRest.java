@@ -94,6 +94,7 @@ public class AuthServiceRest {
   }
 
   @GET
+  @Path("/status")
   public Response status() {
     return Response.ok("OK").build();
   }

@@ -1,0 +1,5 @@
+tracing:
+    service: "helidon-service"
+    log-spans: false
+    sampler-param: 1
+    sampler-type: const
