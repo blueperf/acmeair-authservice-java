@@ -77,7 +77,7 @@ public class SecurityUtils {
   private RsaJsonWebKey jwk;
 
   @PostConstruct
-  private void init() {
+  void init() {
 
     //Get the private key to generate JWTs and create the public JWK to send to the booking/customer service.
     try {
