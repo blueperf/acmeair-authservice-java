@@ -1,0 +1,10 @@
+FROM payara/micro
+
+COPY target/acmeair-authservice-java-6.0.war ${DEPLOY_DIR}/
+
+# key.p12 - all auth services need the same key.
+COPY src/main/liberty/config/resources/security/key.p12 /opt/key.p12
+ENV KEYSTORE_LOCATION=/opt/key.p12
+
+ENTRYPOINT ["java","-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=90.0", "-jar", "payara-micro.jar","--contextroot", "/auth","--port","9080"]
+CMD ["--deploymentDir", "/opt/payara/deployments"]
