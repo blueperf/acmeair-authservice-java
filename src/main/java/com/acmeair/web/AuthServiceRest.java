@@ -38,7 +38,7 @@ import com.acmeair.restclient.CustomerClient;
 import com.acmeair.utils.SecurityUtils;
 
 @ApplicationScoped
-@Path("/")
+@Path("/auth")
 public class AuthServiceRest {
 
   private static final Logger logger = Logger.getLogger(AuthServiceRest.class.getName());

@@ -6,5 +6,5 @@ COPY target/acmeair-authservice-java-6.1.war ${DEPLOY_DIR}/
 COPY src/main/liberty/config/resources/security/key.p12 /opt/key.p12
 ENV KEYSTORE_LOCATION=/opt/key.p12
 
-ENTRYPOINT ["java","-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=90.0", "-jar", "payara-micro.jar","--contextroot", "/auth","--port","9080"]
+ENTRYPOINT ["java","-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=90.0", "-jar", "payara-micro.jar","--contextroot", "/","--port","9080"]
 CMD ["--deploymentDir", "/opt/payara/deployments"]
