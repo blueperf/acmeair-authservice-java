@@ -2,7 +2,7 @@
 <server>
   <!-- Enable features -->
   <featureManager>
-    <feature>microProfile-6.1</feature>
+    <feature>microProfile-6.0</feature>
   </featureManager>
 
   <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
@@ -12,9 +12,9 @@
     httpPort="${DEFAULT_HTTP_PORT}" 
     httpsPort="${DEFAULT_HTTPS_PORT}">
     <accessLogging 
-      enabled="${ACCESS_LOGGING_ENABLED}" 
+      enabled="false" 
       filepath="${server.output.dir}/logs/http_defaultEndpoint_access.log" 
-      logFormat='%h %u %t "%r" %s %b %D %{User-agent}i'>
+      logFormat='%h %u %t "%r" %s %b %D %{User-agent}'>
     </accessLogging>
   </httpEndpoint>
   
@@ -22,13 +22,6 @@
   <mpMetrics authentication="false"/>
 
   <quickStartSecurity userName="${env.USERNAME}" userPassword="${env.PASSWORD}" />
-
-  <logging 
-    consoleFormat="${LOGGING_FORMAT}" 
-    consoleSource="message,trace,accessLog,ffdc,audit" 
-    messageFormat="${LOGGING_FORMAT}" 
-    messageSource="message,trace,accessLog,ffdc,audit" 
-    traceSpecification="${TRACE_SPEC}" />
 
   <webApplication name="acmeair-authservice" location="acmeair-authservice-java-6.1.war" contextRoot="/">
     <!-- enable visibility to third party apis -->

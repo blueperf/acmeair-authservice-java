@@ -25,8 +25,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 
-
-@Path("/config")
+@Path("/auth/config")
 public class SessionConfiguration {
     
   Logger logger = Logger.getLogger(SessionConfiguration.class.getName());

@@ -19,7 +19,7 @@ do
   #echo "RUN $i --------------------------------"
   /nukeDocker.sh > /dev/null 2>&1
   sleep 2
-  CID=$(podman run -d -p 9080:9080 --memory=1g --cpuset-cpus="2-3" ${CONTAINER})
+  CID=$(podman run -d -p 9080:9080 --memory=1g --cpus 2 ${CONTAINER})
   #CID=$(podman run -d -p 9080:9080 --memory=1g --cpuset-cpus="2-3" --cap-add=CHECKPOINT_RESTORE --cap-add=SETPCAP --security-opt seccomp=unconfined ${CONTAINER})
 
   wait-for-url ${HOST}

@@ -41,7 +41,7 @@ public interface CustomerClient {
   @Consumes({ "application/x-www-form-urlencoded" })
   @Produces("application/json")
   @Path("/internal/validateid")
-  @Timeout(500) // throws exception after 500 ms which invokes fallback handler
+  @Timeout(1000) // throws exception after 500 ms which invokes fallback handler
   @CircuitBreaker(requestVolumeThreshold=4,failureRatio=0.5,successThreshold=10,delay=1,delayUnit=ChronoUnit.SECONDS)
   @Retry(maxRetries = 3, delayUnit = ChronoUnit.SECONDS, delay = 5, durationUnit = ChronoUnit.SECONDS, 
     maxDuration = 30,retryOn = Exception.class, abortOn = IOException.class)

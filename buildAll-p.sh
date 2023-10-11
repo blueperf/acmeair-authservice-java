@@ -5,4 +5,4 @@ podman build -t qu-auth -f Dockerfile-qu .
 podman build -t qn-auth -f Dockerfile-qn .
 podman build -t tm-auth -f Dockerfile-tm .
 podman build -t hd-auth -f Dockerfile-hd .
-podman build -t ol-io-auth -f Dockerfile-daily-io --cpuset-cpus="2-3" --cap-add=CHECKPOINT_RESTORE --cap-add=SYS_PTRACE --security-opt seccomp=unconfined .
+podman build -t ol-io-auth -f Dockerfile-daily-io --cpu-quota=200000 -m 1g --cap-add=CHECKPOINT_RESTORE --cap-add=SYS_PTRACE --security-opt seccomp=unconfined .
