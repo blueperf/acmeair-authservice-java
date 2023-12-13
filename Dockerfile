@@ -1,4 +1,4 @@
-FROM open-liberty:full-java11-openj9
+FROM open-liberty:full-java17-openj9
 
 # Config
 COPY --chown=1001:0 src/main/liberty/config/server.xml /config/server.xml
@@ -9,7 +9,7 @@ COPY --chown=1001:0 src/main/liberty/config/bootstrap.properties /config/bootstr
 COPY --chown=1001:0 src/main/liberty/config/resources/security/key.p12 /output/resources/security/key.p12
 
 # App
-COPY --chown=1001:0 target/acmeair-authservice-java-6.0.war /config/apps/
+COPY --chown=1001:0 target/acmeair-authservice-java-6.1.war /config/apps/
 
 # Logging vars
 ENV LOGGING_FORMAT=simple

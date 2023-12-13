@@ -32,7 +32,6 @@ import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.faulttolerance.exceptions.CircuitBreakerOpenException;
 import org.eclipse.microprofile.faulttolerance.exceptions.TimeoutException;
-import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.acmeair.restclient.CustomerClient;
@@ -62,7 +61,6 @@ public class AuthServiceRest {
   @Consumes({ "application/x-www-form-urlencoded" })
   @Produces("text/plain")
   @Path("/login")
-  @Timed(name = "com.acmeair.web.AuthServiceRest.login", tags = "app=acmeair-authservice-java")
   public Response login(@FormParam("login") String login, @FormParam("password") String password) {
     try {
       if (logger.isLoggable(Level.FINE)) {
