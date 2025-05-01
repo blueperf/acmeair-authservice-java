@@ -1,5 +1,6 @@
 ## Stage 1 : build with maven builder image with native capabilities
-FROM quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.3-java17 AS build
+#FROM quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:java17 AS build
+FROM quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.1-java21 AS build
 COPY --chown=quarkus:quarkus mvnw /code/mvnw
 COPY --chown=quarkus:quarkus .mvn /code/.mvn
 COPY --chown=quarkus:quarkus pom.quarkus.xml /code/pom.xml
@@ -27,4 +28,4 @@ USER 1001
 
 ENV KEYSTORE_LOCATION=/opt/key.p12
 
-CMD ["./application", "-Dhttp.keepalive=true","-Dhttp.maxConnections=100","-Dquarkus.http.host=0.0.0.0","-Dquarkus.http.port=9080","-Djava.util.logging.manager=org.jboss.logmanager.LogManager"]
+CMD ["./application", "-Xmx512m" ,"-Dhttp.keepalive=true","-Dhttp.maxConnections=100","-Dquarkus.http.host=0.0.0.0","-Dquarkus.http.port=9080","-Djava.util.logging.manager=org.jboss.logmanager.LogManager"]

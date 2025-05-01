@@ -1,12 +1,12 @@
 # 1st stage, build the app
-FROM maven:3.8.4-openjdk-17-slim as build
+FROM maven:3.9.6-eclipse-temurin-21 as build
 
 WORKDIR /helidon
 
 # Create a first layer to cache the "Maven World" in the local repository.
 # Incremental docker builds will always resume after that, unless you update
 # the pom
-ADD pom.helidon.xml ./pom.xml
+ADD pom.helidon4.xml ./pom.xml
 RUN mvn package -Dmaven.test.skip -Declipselink.weave.skip
 
 # Do the Maven build!
@@ -20,8 +20,7 @@ COPY src/main/liberty/config/resources/security/key.p12 /helidon/target/key.p12
 
 
 # 2nd stage, build the runtime image
-#FROM openjdk:17-jdk-slim
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /helidon
 
 # Copy the binary built in the 1st stage

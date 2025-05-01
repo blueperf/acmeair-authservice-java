@@ -2,7 +2,7 @@
 <server>
   <!-- Enable features -->
   <featureManager>
-    <feature>microProfile-6.0</feature>
+    <feature>microProfile-7.0</feature>
   </featureManager>
 
   <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
@@ -18,7 +18,7 @@
     </accessLogging>
   </httpEndpoint>
   
-  <monitor filter="REST"/>
+  <!--<monitor filter="REST"/>-->
   <mpMetrics authentication="false"/>
 
   <quickStartSecurity userName="${env.USERNAME}" userPassword="${env.PASSWORD}" />

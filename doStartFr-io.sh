@@ -33,7 +33,7 @@ do
 
   #use docker inspect to get start time
   time2=$(podman inspect ${CID} | grep StartedAt | awk '{print $2}'| awk '{gsub("\"", " "); print $1}'| awk '{gsub("T"," "); print}'|awk '{print substr($0, 1, length($0)-6)}')
-  time2="$time2 CDT"
+  time2="$time2 UTC"
   #echo "start time"
   echo $time2
   let startMillis=$(date "+%s%N" -d "$time2")/1000000
